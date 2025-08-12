@@ -12,6 +12,7 @@ import { useAppDispatch } from '../redux/hooks';
 import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 
+// TODO: three js animation
 export default function ChatBox() {
   const dispatch = useAppDispatch();
 
