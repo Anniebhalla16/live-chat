@@ -24,3 +24,6 @@ web-ui/*.sln
 web-ui/*.sw?
 
 web-ui/node-modules
+
+.DS_Store
+web-ui/public/.DS_Store
