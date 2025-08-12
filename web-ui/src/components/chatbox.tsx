@@ -14,7 +14,6 @@ import MessageList from './MessageList';
 
 export default function ChatBox() {
   const dispatch = useAppDispatch();
-  // const sendCount = useAppSelector<number>((s) => s.messages.sendCount);
 
   return (
     <Card
@@ -48,13 +47,7 @@ export default function ChatBox() {
             position: 'relative',
           }}
         >
-          {/* 3D burst overlay (top area) */}
-          {/* <ThreeBurst trigger={sendCount} /> */}
-
-          {/* messages grow + scroll */}
           <MessageList />
-
-          {/* input pinned at bottom */}
           <MessageInput />
         </Box>
       </CardContent>
