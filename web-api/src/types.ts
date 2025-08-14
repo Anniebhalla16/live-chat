@@ -36,7 +36,6 @@ export type ChatMessage = {
 
 export interface SendMessageParams {
   text: string;
-  author: string;
 }
 
 export const CODES = {
@@ -50,4 +49,7 @@ export const SOCKET_EVENTS = {
     REQUEST : "rpc/request",
     RESPONSE: 'rpc/response',
     NOTIFY : 'rpc/notify'
+}
+export const NOTIFY_EVENTS = {
+    NEW_MESSAGE : "message/new"
 }

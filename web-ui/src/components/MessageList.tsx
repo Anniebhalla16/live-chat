@@ -6,7 +6,6 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import clsx from 'clsx';
 
 import { Fragment, useEffect, useRef } from 'react';
 import type { ChatMessage } from '../redux/features/messagesSlice';
@@ -42,18 +41,12 @@ export default function MessageList() {
       ) : (
         <List dense disablePadding>
           {messages.map((m, idx) => {
-            const isYou = m.author === 'You';
             return (
               <Fragment key={m.id}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
                     primary={
-                      <Typography
-                        variant="subtitle2"
-                        className={clsx({
-                          '!justify-self-end': isYou,
-                        })}
-                      >
+                      <Typography variant="subtitle2">
                         {m.author} •{' '}
                         {new Date(m.ts).toLocaleTimeString('en-US', {
                           hour: '2-digit',
@@ -62,14 +55,7 @@ export default function MessageList() {
                       </Typography>
                     }
                     secondary={
-                      <Typography
-                        variant="body1"
-                        className={clsx({
-                          '!justify-self-end': isYou,
-                        })}
-                      >
-                        {m.text}
-                      </Typography>
+                      <Typography variant="body1">{m.text}</Typography>
                     }
                   />
                 </ListItem>

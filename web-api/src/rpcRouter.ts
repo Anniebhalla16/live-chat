@@ -1,6 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import { addMessage, getRecent } from './store';
-import { ChatMessage, CODES, JSONRPCSuccess, METHOD, SendMessageParams, SOCKET_EVENTS, type JSONRPCError, type JSONRPCRequest, type JSONRPCResponse } from './types';
+import { ChatMessage, CODES, JSONRPCSuccess, METHOD, NOTIFY_EVENTS, SendMessageParams, SOCKET_EVENTS, type JSONRPCError, type JSONRPCRequest, type JSONRPCResponse } from './types';
 
 
 function error(id: JSONRPCRequest['id'], code: number, message: string, data?: unknown): JSONRPCError {
@@ -22,7 +22,7 @@ export async function handleRPC(io: Server, socket: Socket, req: JSONRPCRequest)
       case METHOD.SEND_MESSAGE: {
         const { text } = req.params as SendMessageParams;
         const msg = addMessage(socket.id, text);   
-        io.emit(SOCKET_EVENTS.NOTIFY, { type: 'message/new', payload: msg });
+        io.emit(SOCKET_EVENTS.NOTIFY, { type: NOTIFY_EVENTS.NEW_MESSAGE, payload: msg });
         return socket.emit(SOCKET_EVENTS.RESPONSE, result(req.id, msg));
       }
 

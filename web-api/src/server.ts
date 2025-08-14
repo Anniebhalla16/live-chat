@@ -4,7 +4,7 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { handleRPC } from './rpcRouter';
-import { SOCKET_EVENTS } from './socketEvents';
+import { SOCKET_EVENTS } from './types';
 
 const PORT = Number(process.env.PORT || 3001);
 const ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';

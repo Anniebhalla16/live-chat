@@ -1,24 +1,24 @@
 import SendIcon from '@mui/icons-material/Send';
 import { IconButton, Paper, TextField } from '@mui/material';
 import { useState, type KeyboardEvent } from 'react';
-import { addMessage } from '../redux/features/messagesSlice';
+import { sendMessageRPC } from '../redux/features/connectionSlice';
 import { useAppDispatch } from '../redux/hooks';
 
 export default function MessageInput() {
   const dispatch = useAppDispatch();
-  const [value, setValue] = useState('');
+  const [text, setText] = useState('');
 
-  const send = () => {
-    const t = value.trim();
+  const onSend = async () => {
+    const t = text.trim();
     if (!t) return;
-    dispatch(addMessage(t));
-    setValue('');
+    await dispatch(sendMessageRPC({ text: t }));
+    setText('');
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      send();
+      onSend();
     }
   };
 
@@ -34,14 +34,14 @@ export default function MessageInput() {
         placeholder="Type a message"
         multiline
         maxRows={4}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         onKeyDown={onKeyDown}
         sx={{ '& fieldset': { border: 'none' } }}
       />
       <IconButton
         color="primary"
-        onClick={send}
+        onClick={onSend}
         aria-label="send message"
         className="!bg-inherit !rounded-none"
       >
