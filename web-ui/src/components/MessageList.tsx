@@ -1,11 +1,15 @@
 import { Box, List, Typography } from '@mui/material';
 import { Fragment, useEffect, useMemo, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import type { ChatMessage } from '../redux/features/messagesSlice';
 import { useAppSelector } from '../redux/hooks';
+import type { RootState } from '../redux/store';
+import ThreeBubbles from './ThreeBubbles';
 
 export default function MessageList() {
   const messages = useAppSelector<ChatMessage[]>((s) => s.messages.items);
   const listRef = useRef<HTMLDivElement | null>(null);
+  const { sendCount } = useSelector((s: RootState) => s.messages);
 
   useEffect(() => {
     const el = listRef.current;
@@ -41,6 +45,8 @@ export default function MessageList() {
         gap: 0.75,
       }}
     >
+      <ThreeBubbles trigger={sendCount} />
+
       {messages.length === 0 ? (
         <Typography
           variant="body2"

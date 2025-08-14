@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { rpc } from '../../rpc/rpcClient';
 import { NOTIFY_EVENTS_CLIENT } from '../../types';
 import type { RootState } from '../store';
-import { messageReceived, setHistory, type ChatMessage } from './messagesSlice';
+import { burstNow, messageReceived, setHistory, type ChatMessage } from './messagesSlice';
 
 const getErr = (e: unknown) => (e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e));
 
@@ -52,11 +52,11 @@ export const listRecent = createAsyncThunk<void, { limit?: number }, { rejectVal
 
 export const sendMessageRPC = createAsyncThunk<void, { text: string }, { state: RootState; rejectValue: string }>(
   'connection/sendMessage',
-  async ({ text }, { getState, rejectWithValue }) => {
+  async ({ text }, { getState, rejectWithValue, dispatch }) => {
     try {
       const author = getState().connection.name;
+      dispatch(burstNow()); 
       await rpc.call('sendMessage', { text, author });
-      // Do NOT optimistically add; notify will add for everyone (incl. sender)
     } catch (e) {
       return rejectWithValue(getErr(e) || 'send failed');
     }

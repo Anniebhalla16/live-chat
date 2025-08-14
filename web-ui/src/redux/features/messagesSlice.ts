@@ -17,14 +17,14 @@ const messagesSlice = createSlice({
       if (!state.items.some((m) => m.id === msg.id)) {
         state.items.push(msg);
         if (state.items.length > 200) state.items.shift();
-        state.sendCount += 1; 
       }
     },
     setHistory(state, action: PayloadAction<ChatMessage[]>) {
       state.items = action.payload.slice(-200);
     },
+    burstNow(state) { state.sendCount += 1; }
   },
 });
 
-export const { messageReceived, setHistory } = messagesSlice.actions;
+export const { messageReceived, setHistory, burstNow } = messagesSlice.actions;
 export default messagesSlice.reducer;
