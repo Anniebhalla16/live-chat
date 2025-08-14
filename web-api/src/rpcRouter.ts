@@ -1,5 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import { SOCKET_EVENTS } from './socketEvents';
+import { getRecent } from './store';
 import { ChatMessage, CODES, JSONRPCSuccess, METHOD, SendMessageParams, type JSONRPCError, type JSONRPCRequest, type JSONRPCResponse } from './types';
 
 
@@ -32,7 +33,7 @@ export async function handleRPC(io: Server, socket: Socket, req: JSONRPCRequest)
       }
 
       case METHOD.LIST_RECENT: {
-        const res: JSONRPCSuccess<ChatMessage[]> = { jsonrpc: '2.0', result: messages.slice(-50), id: req.id! };
+        const res: JSONRPCSuccess<ChatMessage[]> = { jsonrpc: '2.0', result: getRecent() , id: req.id! };
           return socket.emit(SOCKET_EVENTS.RESPONSE, res);
       }
       default:
