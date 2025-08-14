@@ -12,6 +12,19 @@ web-ui/dist
 web-ui/dist-ssr
 web-ui/*.local
 
+web-api/logs
+web-api/*.log
+web-api/npm-debug.log*
+web-api/yarn-debug.log*
+web-api/yarn-error.log*
+web-api/pnpm-debug.log*
+web-api/lerna-debug.log*
+
+web-api/node_modules
+web-api/dist
+web-api/dist-ssr
+web-api/*.local
+
 # Editor directories and files
 web-ui/.vscode/*
 web-ui/!.vscode/extensions.json
@@ -22,8 +35,6 @@ web-ui/*.ntvs*
 web-ui/*.njsproj
 web-ui/*.sln
 web-ui/*.sw?
-
-web-ui/node-modules
 
 .DS_Store
 web-ui/public/.DS_Store
