@@ -46,3 +46,8 @@ export const CODES = {
   INTERNAL_ERROR: -32603
 } as const;
 
+export const SOCKET_EVENTS = {
+    REQUEST : "rpc/request",
+    RESPONSE: 'rpc/response',
+    NOTIFY : 'rpc/notify'
+}
