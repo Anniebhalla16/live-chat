@@ -1,7 +1,6 @@
 import type { Server, Socket } from 'socket.io';
-import { SOCKET_EVENTS } from './socketEvents';
-import { getRecent } from './store';
-import { ChatMessage, CODES, JSONRPCSuccess, METHOD, SendMessageParams, type JSONRPCError, type JSONRPCRequest, type JSONRPCResponse } from './types';
+import { addMessage, getRecent } from './store';
+import { ChatMessage, CODES, JSONRPCSuccess, METHOD, SendMessageParams, SOCKET_EVENTS, type JSONRPCError, type JSONRPCRequest, type JSONRPCResponse } from './types';
 
 
 function error(id: JSONRPCRequest['id'], code: number, message: string, data?: unknown): JSONRPCError {
@@ -21,20 +20,15 @@ export async function handleRPC(io: Server, socket: Socket, req: JSONRPCRequest)
     }
     switch (req.method) {
       case METHOD.SEND_MESSAGE: {
-        const p = req.params as SendMessageParams;
-          const msg: ChatMessage = { id: crypto.randomUUID(), text: p.text, author: p.author, ts: Date.now() };
-          messages.push(msg);
-
-          // notify everyone
-          io.emit(SOCKET_EVENTS.NOTIFY, { type: 'message/new', payload: msg });
-
-          const res: JSONRPCSuccess<ChatMessage> = { jsonrpc: '2.0', result: msg, id: req.id! };
-          return socket.emit(SOCKET_EVENTS.RESPONSE, res);
+        const { text } = req.params as SendMessageParams;
+        const msg = addMessage(socket.id, text);   
+        io.emit(SOCKET_EVENTS.NOTIFY, { type: 'message/new', payload: msg });
+        return socket.emit(SOCKET_EVENTS.RESPONSE, result(req.id, msg));
       }
 
       case METHOD.LIST_RECENT: {
-        const res: JSONRPCSuccess<ChatMessage[]> = { jsonrpc: '2.0', result: getRecent() , id: req.id! };
-          return socket.emit(SOCKET_EVENTS.RESPONSE, res);
+        const res: JSONRPCSuccess<ChatMessage[]> = { jsonrpc: '2.0', result: getRecent(), id: req.id! };
+        return socket.emit(SOCKET_EVENTS.RESPONSE, res);
       }
       default:
         return socket.emit(SOCKET_EVENTS.RESPONSE, error(req.id, CODES.METHOD_NOT_FOUND, 'Method not found'));
