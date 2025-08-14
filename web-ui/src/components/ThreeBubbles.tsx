@@ -1,6 +1,10 @@
-// ThreeBubbles.tsx
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+
+type SpawnRect = Pick<
+  DOMRect,
+  'left' | 'top' | 'right' | 'bottom' | 'width' | 'height'
+>;
 
 export default function ThreeBubbles({
   trigger,
@@ -10,6 +14,7 @@ export default function ThreeBubbles({
   trigger: number;
   count?: number;
   bottomInset?: number;
+  spawnRect?: SpawnRect | null;
 }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene>(null);
@@ -22,7 +27,6 @@ export default function ThreeBubbles({
   >([]);
   const hideTimer = useRef<number | null>(null);
 
-  // init once
   useEffect(() => {
     const mount = mountRef.current!;
     const scene = new THREE.Scene();
@@ -135,7 +139,10 @@ export default function ThreeBubbles({
 
     const w = el.clientWidth,
       h = el.clientHeight;
-    const spawnBaseY = Math.max(0, h - bottomInset);
+
+    const style = getComputedStyle(el);
+    const padB = parseFloat(style.paddingBottom) || 0;
+    const spawnBaseY = Math.max(0, h - bottomInset - padB);
     const startY = Math.max(4, spawnBaseY - 12);
 
     for (let i = 0; i < count; i++) {

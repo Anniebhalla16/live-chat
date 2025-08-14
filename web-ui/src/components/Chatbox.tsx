@@ -25,9 +25,9 @@ export default function ChatBox() {
         sx={{
           position: 'relative',
           overflow: 'hidden',
-          width: '100%',
+          width: '50vw',
         }}
-        className="bg-orange-50"
+        className="bg-blue-200"
       >
         <CardHeader title="Live Chat" />
         <CardContent sx={{ pt: 0 }}>
