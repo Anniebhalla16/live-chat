@@ -109,17 +109,7 @@ npm run preview        # optional
 
 ## Cross‑Browser Notes
 
-* Client **does not force** `transports: ['websocket']` to allow fallbacks behind proxies.
 * Tested on recent Chrome/Firefox/Edge.
-
----
-
-## Troubleshooting
-
-* **CORS error** — set `CORS_ORIGIN` on server to the exact frontend origin.
-* **Cannot connect to Socket.IO** — verify `VITE_SERVER_URL`, ports, and that the server is running.
-* **Duplicate messages** — ensure you don’t optimistically add on send; rely on `rpc/notify`.
-* **Animation covers input** — make sure the `MessageList` container has `position: relative` and `overflow: hidden`, and the overlay is mounted **inside** that box.
 
 ---
 
@@ -131,14 +121,3 @@ npm run preview        # optional
 
 ---
 
-## License
-
-MIT (or as appropriate for your project).
-
----
-
-## Roadmap (nice‑to‑have)
-
-* Rooms/DMs (`joinRoom`), message persistence, avatars
-* Typing indicator, message delivery acks
-* E2E tests and CI, Docker Compose for dev
