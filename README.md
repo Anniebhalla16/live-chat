@@ -112,12 +112,3 @@ npm run preview        # optional
 * Tested on recent Chrome/Firefox/Edge.
 
 ---
-
-## Optional: Only animate on *local send*
-
-* Add `burstNow()` in `messagesSlice` that increments `sendCount`.
-* Dispatch `burstNow()` inside `sendMessageRPC` **before** or **after** the RPC call.
-* Do **not** increment `sendCount` in `messageReceived` to avoid remote bursts.
-
----
-
